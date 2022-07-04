@@ -31,7 +31,9 @@ public class ItemRepository {
         }
         // DB에 등록된 경우이므로 update
         else {
-            em.merge(item);
+            // 파라미터로 넘어온 객체는 그대로 준영속 객체
+            // 반환하는 객체는 영속성 객체
+            Item merge = em.merge(item);
         }
         return item.getId();
     }
