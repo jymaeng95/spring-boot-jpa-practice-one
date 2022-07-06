@@ -56,6 +56,7 @@ public class MemberApiController {
                 .map(member -> new MemberDto(member.getName()))
                 .collect(Collectors.toList());
 
+
         return new Result(collect.size(), collect);
     }
 
