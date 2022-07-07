@@ -1,8 +1,7 @@
 package jpabook.jpashop.repository;
 
 import jpabook.jpashop.domain.Order;
-import jpabook.jpashop.domain.OrderStatus;
-import jpabook.jpashop.service.OrderService;
+import jpabook.jpashop.repository.order.simplequery.OrderSimpleQueryDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -94,5 +93,13 @@ public class OrderRepository {
         TypedQuery<Order> query = em.createQuery(cq).setMaxResults(1000);
 
         return query.getResultList();
+    }
+
+    public List<Order> findAllWithMemberDelivery() {
+        // Fetch Join을 이용 -> Order를 가져올 때 객체 그래프를 탐색해서 Member와 Delivery를 한번에 가져온다.
+        return em.createQuery("select o from Order o" +
+                " join fetch o.member m" +
+                " join fetch o.delivery d", Order.class
+        ).getResultList();
     }
 }

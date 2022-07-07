@@ -16,4 +16,4 @@ spring:
 logging:
   level:
     org.hibernate.SQL: debug # logger로 찍음
-    org.hibernate.type: trace
+#    org.hibernate.type: trace
