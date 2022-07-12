@@ -29,10 +29,10 @@ public class OrderRepository {
     public List<Order> findAllByString(OrderSearch orderSearch) {
         String jpql = "select o from Order o join o.member m";
         boolean isFirstCondition = true;
-        
+
         // 동적쿼리 1번째 무식한 방법 (String으로 하다보면 버그가 발생할 수 잇음!! 복잡해!!)
         if (orderSearch.getOrderStatus() != null) {
-            if(isFirstCondition) {
+            if (isFirstCondition) {
                 jpql += " where";
                 isFirstCondition = false;
             } else {
@@ -40,10 +40,10 @@ public class OrderRepository {
             }
             jpql += " o.status = :status";
         }
-        
-        if(StringUtils.hasText(orderSearch.getMemberName())){
-            if(isFirstCondition) {
-                jpql+= " where";
+
+        if (StringUtils.hasText(orderSearch.getMemberName())) {
+            if (isFirstCondition) {
+                jpql += " where";
                 isFirstCondition = false;
             } else {
                 jpql += " and";
@@ -52,8 +52,8 @@ public class OrderRepository {
         }
 
         TypedQuery<Order> query = em.createQuery(jpql, Order.class).setMaxResults(1000);
-        
-        if(orderSearch.getOrderStatus() != null){
+
+        if (orderSearch.getOrderStatus() != null) {
             query = query.setParameter("status", orderSearch.getOrderStatus());
         }
 
@@ -102,6 +102,17 @@ public class OrderRepository {
                 " join fetch o.delivery d", Order.class
         ).getResultList();
     }
+
+    public List<Order> findAllWithMemberDelivery(int offset, int limit) {
+        // Fetch Join을 이용 -> Order를 가져올 때 객체 그래프를 탐색해서 Member와 Delivery를 한번에 가져온다.
+        return em.createQuery("select o from Order o" +
+                " join fetch o.member m" +
+                " join fetch o.delivery d", Order.class
+        ).setFirstResult(offset)
+         .setMaxResults(limit)
+         .getResultList();
+    }
+
 
     public List<Order> findAllWithItem() {
         return em.createQuery(
