@@ -13,6 +13,7 @@ spring:
 #        show_sql: true   # System.out으로 찍음
         format_sql: true
         default_batch_fetch_size: 100 # in절이 생성되어 조회를 해오는데 한번에 몇개를 in절에 가져올지 지정
+    open-in-view: false
 
 logging:
   level:
