@@ -43,7 +43,7 @@ class MemberServiceTest {
         // then - 결과
         // 같은 트랜잭션 내에서 동일 영속성 컨텍스트를 사용 시
         em.flush();  // 영속성 컨텍스트에 있는 것을 DB로 반영하기 때문에 Rollback을 설정 안해도 쿼리확인 가능
-        assertEquals(member, memberRepository.findMember(savedId));
+        assertEquals(member, memberRepository.findById(savedId).get());
 
     }
 
